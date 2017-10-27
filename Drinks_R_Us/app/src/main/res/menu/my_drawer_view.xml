@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_item_Home"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="Accueil" />
+        <item
+            android:id="@+id/nav_item_Create"
+            android:icon="@drawable/ic_add_black_24dp"
+            android:title="Crée un cocktail" />
+        <item
+            android:id="@+id/nav_item_MesCocktails"
+            android:icon="@drawable/ic_local_bar_black_24dp"
+            android:title="Mes Cocktails" />
+        <item
+            android:id="@+id/nav_item_Fav"
+            android:icon="@drawable/ic_star_black_24dp"
+            android:title="Favoris" />
+        <item
+            android:id="@+id/nav_item_Logout"
+            android:icon="@drawable/ic_power_settings_new_black_24dp"
+            android:title="Se déconnecter" />
+    </group>
+
+</menu>
