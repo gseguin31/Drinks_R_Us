@@ -20,12 +20,8 @@ public class RetroFitUtils {
 
     public static ServiceServeur get(){
         Retrofit retrofit = new Retrofit.Builder()
-<<<<<<< HEAD
                 .baseUrl("http://10.0.2.2:7026/")
                 //.baseUrl("http://localhost:7026/")
-=======
-                .baseUrl("http://localhost:7026/")
->>>>>>> dd9b0a12b794e313824b5788fbc3145129b09270
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();

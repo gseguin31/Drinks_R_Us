@@ -32,28 +32,7 @@ public class Login extends AppCompatActivity {
 
 
         getSupportActionBar().setTitle("Drinks R Us");
-<<<<<<< HEAD
-        
-=======
 
-        //TEST
-        serverMock.getUserById(1).enqueue(new Callback<Users>() {
-            @Override
-            public void onResponse(Call<Users> call, Response<Users> response) {
-                if (response.isSuccessful()){
-                    Log.i("Retrofit","getuserbyid : " +  response.body().getUsername());
-                }
-                else {
-                    Log.i("Retrofit", "code d'erreur est " + response.code());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Users> call, Throwable t) {
-
-            }
-        });
->>>>>>> dd9b0a12b794e313824b5788fbc3145129b09270
 
         //Buttons Listeners
         Button btnLogin = (Button)findViewById(R.id.BtnLogin);
