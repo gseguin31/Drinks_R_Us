@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7f511b62-1963-4474-b1fa-637e904e2a48" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Drinks_R_Us/.idea/misc.xml" afterPath="$PROJECT_DIR$/Drinks_R_Us/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Drinks_R_Us/.idea/modules.xml" afterPath="$PROJECT_DIR$/Drinks_R_Us/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Drinks_R_Us/app/src/main/java/com/example/a1507779/drinks_r_us/Activities/Login.java" afterPath="$PROJECT_DIR$/Drinks_R_Us/app/src/main/java/com/example/a1507779/drinks_r_us/Activities/Login.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Drinks_R_Us/app/src/main/java/com/example/a1507779/drinks_r_us/Models/RetroFitUtils.java" afterPath="$PROJECT_DIR$/Drinks_R_Us/app/src/main/java/com/example/a1507779/drinks_r_us/Models/RetroFitUtils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Drinks_R_Us/app/src/main/java/com/example/a1507779/drinks_r_us/Server/SingletonServeur.java" afterPath="$PROJECT_DIR$/Drinks_R_Us/app/src/main/java/com/example/a1507779/drinks_r_us/Server/SingletonServeur.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Drinks_R_Us/build.gradle" afterPath="$PROJECT_DIR$/Drinks_R_Us/build.gradle" />
     </list>
     <ignored path="Drinks_R_Us V.1.9.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -25,6 +19,9 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
     <favorites_list name="Drinks_R_Us V.1.9" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -65,13 +62,57 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane" />
       <pane id="AndroidView">
         <subPane />
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
+      <pane id="PackagesPane">
+        <subPane />
+      </pane>
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="Scratches" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Drinks_R_Us" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Drinks_R_Us" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Drinks_R_Us" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Drinks_R_Us" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Drinks_R_Us" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Drinks_R_Us" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -165,7 +206,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1176" extended-state="0" />
+    <frame x="-8" y="-8" width="1936" height="1176" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -205,5 +246,15 @@
   <component name="XDebuggerManager">
     <breakpoint-manager />
     <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Drinks_R_Us/app/src/main/java/com/example/a1507779/drinks_r_us/Activities/CreateDrink.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="42" column="13" selection-start-line="42" selection-start-column="13" selection-end-line="42" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
   </component>
 </project>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.a1507779.drinks_r_us.Activities.Login"
+    tools:context=".Activities.Login"
     android:orientation="vertical">
 
     <TextView

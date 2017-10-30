@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.a1507779.drinks_r_us">
+    package="org.seguin.drinks_r_us">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
