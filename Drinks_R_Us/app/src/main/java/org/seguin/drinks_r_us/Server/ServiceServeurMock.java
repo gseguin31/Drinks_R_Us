@@ -3,6 +3,7 @@ package org.seguin.drinks_r_us.Server;
 import org.seguin.drinks_r_us.Models.Drinks;
 import org.seguin.drinks_r_us.Models.EmailPassword;
 import org.seguin.drinks_r_us.Models.Ingredients;
+import org.seguin.drinks_r_us.Models.Token;
 import org.seguin.drinks_r_us.Models.UserDrink;
 import org.seguin.drinks_r_us.Models.Users;
 
@@ -68,7 +69,7 @@ public class ServiceServeurMock implements ServiceServeur {
     }
 
     @Override
-    public Call<Users> verifyCredentials(EmailPassword cred) {
+    public Call<Token> verifyCredentials(EmailPassword cred) {
         return delegate.returningResponse(user).verifyCredentials(cred);
     }
 

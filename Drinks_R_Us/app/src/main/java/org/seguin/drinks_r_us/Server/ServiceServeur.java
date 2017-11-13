@@ -3,11 +3,13 @@ package org.seguin.drinks_r_us.Server;
 import org.seguin.drinks_r_us.Models.Drinks;
 import org.seguin.drinks_r_us.Models.EmailPassword;
 import org.seguin.drinks_r_us.Models.Ingredients;
+import org.seguin.drinks_r_us.Models.Token;
 import org.seguin.drinks_r_us.Models.UserDrink;
 import org.seguin.drinks_r_us.Models.Users;
 
 import java.util.ArrayList;
 
+import okhttp3.Response;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -41,7 +43,7 @@ public interface ServiceServeur {
     Call<String> addMyFavs(@Body UserDrink drink);
 
     @POST("/api/Users/VerifyCredentials")
-    Call<Users> verifyCredentials(@Body EmailPassword login);
+    Call<Token> verifyCredentials(@Body EmailPassword login);
 
     @POST("/api/Users/Create")
     Call<Users> createUser(@Body EmailPassword credentials);

@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.seguin.drinks_r_us.Models.Token;
 import org.seguin.drinks_r_us.Models.Users;
 import org.seguin.drinks_r_us.Models.EmailPassword;
 import org.seguin.drinks_r_us.R;
@@ -55,13 +56,13 @@ public class Login extends AppCompatActivity {
                     return;
                 }
 
-                serverMock.verifyCredentials(credentials).enqueue(new Callback<Users>() {
+                serverMock.verifyCredentials(credentials).enqueue(new Callback<Token>() {
                     @Override
-                    public void onResponse(Call<Users> call, Response<Users> response) {
+                    public void onResponse(Call<Token> call, Response<Token> response) {
                         if (response.isSuccessful()){
-                            final Users user = response.body();
+                            final Token token = response.body();
                             Intent logIntent = new Intent(getApplicationContext(), MainActivity.class);
-                            logIntent.putExtra("currentUser", user.getId());
+                            logIntent.putExtra("currentUser", token.UserId);
                             startActivity(logIntent);
                         }
                         else{
@@ -71,7 +72,7 @@ public class Login extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(Call<Users> call, Throwable t) {
+                    public void onFailure(Call<Token> call, Throwable t) {
 
                     }
                 });
