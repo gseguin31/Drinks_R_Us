@@ -1,5 +1,6 @@
 package org.seguin.drinks_r_us.Activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.annotation.NonNull;
@@ -49,6 +50,7 @@ public class CreateDrink extends AppCompatActivity {
     Bus bus;
     Users currentUser;
     int currentUserid;
+    ProgressDialog progressD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +82,7 @@ public class CreateDrink extends AppCompatActivity {
                 String edNomString = edNom.getText().toString().trim();
                 String edInstructionsString = edInstructions.getText().toString().trim();
 
+
                 //Verif l'integrite du drink avant de cree
                 if(edNomString.isEmpty() || edNomString.length() == 0 || edNomString.equals("") || edNomString == null)
                 {
@@ -98,6 +101,11 @@ public class CreateDrink extends AppCompatActivity {
 
                 //create drink
                 Drinks newDrink = new Drinks(edNomString, edInstructionsString, listIngrChoisi, currentUser.getId());
+
+                // show progressBar
+                progressD = ProgressDialog.show(CreateDrink.this, "Veuillez patienter",
+                        "Attente de réponse du serveur", true);
+
                 serveurMock.createDrink(newDrink).enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
@@ -105,16 +113,18 @@ public class CreateDrink extends AppCompatActivity {
                             Toast.makeText(CreateDrink.this, "Le cocktail a été crée", Toast.LENGTH_SHORT).show();
                             Intent i = new Intent(getApplicationContext(), MainActivity.class);
                             i.putExtra("currentUser", currentUserid);
+                            progressD.dismiss();
                             startActivity(i);
                         }
                         else{
                             Log.i("Retrofit", "code d'erreur est " + response.code());
+                            progressD.dismiss();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<String> call, Throwable t) {
-
+                        progressD.dismiss();
                     }
                 });
 
@@ -122,20 +132,24 @@ public class CreateDrink extends AppCompatActivity {
                 UserDrink userdrink = new UserDrink();
                 userdrink.user = currentUser;
                 userdrink.drink = newDrink;
+                // show progressBar
+                progressD = ProgressDialog.show(CreateDrink.this, "Veuillez patienter",
+                        "Attente de réponse du serveur", true);
                 serveurMock.addMyDrinks(userdrink).enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
                         if (response.isSuccessful()){
-
+                            progressD.dismiss();
                         }
                         else {
                             Log.i("Retrofit", "d'erreur est " + response.body());
+                            progressD.dismiss();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<String> call, Throwable t) {
-
+                        progressD.dismiss();
                     }
                 });
             }
@@ -172,15 +186,20 @@ public class CreateDrink extends AppCompatActivity {
                         startActivity(intentFav);
                         break;
                     case R.id.nav_item_Logout:
+                        // show progressBar
+                        progressD = ProgressDialog.show(CreateDrink.this, "Veuillez patienter",
+                                "Attente de réponse du serveur", true);
                         serveurMock.logoutUser(currentUserid).enqueue(new Callback<Users>() {
                             @Override
                             public void onResponse(Call<Users> call, Response<Users> response) {
                                 if (response.isSuccessful()){
+                                    progressD.dismiss();
                                     Intent intentLogin = new Intent(getApplicationContext(), Login.class);
                                     startActivity(intentLogin);
                                 }
                                 else{
                                     Log.i("Retrofit", "code d'erreur est " + response.code());
+                                    progressD.dismiss();
                                 }
                             }
 

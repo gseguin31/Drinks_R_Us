@@ -1,5 +1,6 @@
 package org.seguin.drinks_r_us.Activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.annotation.NonNull;
@@ -40,7 +41,7 @@ public class DrinkDescription extends AppCompatActivity {
     int currentUserid;
     ServiceServeur serveurMock;
     Drinks currentDrink;
-
+    ProgressDialog progressD;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,12 +73,15 @@ public class DrinkDescription extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final ArrayList<Drinks> myFavs = new ArrayList<Drinks>();
+                // show progressBar
+                progressD = ProgressDialog.show(DrinkDescription.this, "Veuillez patienter",
+                        "Attente de réponse du serveur", true);
                 serveurMock.getMyFavs(currentUserid).enqueue(new Callback<ArrayList<Drinks>>() {
                     @Override
                     public void onResponse(Call<ArrayList<Drinks>> call, Response<ArrayList<Drinks>> response) {
                         if (response.isSuccessful()){
                             myFavs.addAll(response.body());
-
+                            progressD.dismiss();
                             if (myFavs.size() < 1){
                                 addDrinkInFavs();
                             }
@@ -96,12 +100,13 @@ public class DrinkDescription extends AppCompatActivity {
                         }
                         else{
                             Log.i("Retrofit", "code d'erreur est " + response.code());
+                            progressD.dismiss();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ArrayList<Drinks>> call, Throwable t) {
-
+                        progressD.dismiss();
                     }
                 });
             }
@@ -129,6 +134,9 @@ public class DrinkDescription extends AppCompatActivity {
                         startActivity(intentFav);
                         break;
                     case R.id.nav_item_Logout:
+                        // show progressBar
+                        progressD = ProgressDialog.show(DrinkDescription.this, "Veuillez patienter",
+                                "Attente de réponse du serveur", true);
                         serveurMock.logoutUser(currentUserid).enqueue(new Callback<Users>() {
                             @Override
                             public void onResponse(Call<Users> call, Response<Users> response) {
@@ -138,12 +146,13 @@ public class DrinkDescription extends AppCompatActivity {
                                 }
                                 else{
                                     Log.i("Retrofit", "code d'erreur est " + response.code());
+                                    progressD.dismiss();
                                 }
                             }
 
                             @Override
                             public void onFailure(Call<Users> call, Throwable t) {
-
+                                progressD.dismiss();
                             }
                         });
                         break;
@@ -175,6 +184,9 @@ public class DrinkDescription extends AppCompatActivity {
         UserDrink userDrink = new UserDrink();
         userDrink.drink = currentDrink;
         userDrink.user = currentUser;
+        // show progressBar
+        progressD = ProgressDialog.show(DrinkDescription.this, "Veuillez patienter",
+                "Attente de réponse du serveur", true);
         serveurMock.addMyFavs(userDrink).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
@@ -186,12 +198,13 @@ public class DrinkDescription extends AppCompatActivity {
                 }
                 else{
                     Log.i("Retrofit", "code d'erreur est " + response.code());
+                    progressD.dismiss();
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-
+                progressD.dismiss();
             }
         });
     }

@@ -2,6 +2,8 @@ package org.seguin.drinks_r_us.Fragments;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.widget.ListView;
 
 import org.seguin.drinks_r_us.Activities.MainActivity;
+import org.seguin.drinks_r_us.Activities.MyFavs;
 import org.seguin.drinks_r_us.Adapters.IngredientFragment_IngredientAdapter;
 import org.seguin.drinks_r_us.Events.UserFinishedAddingIngrEvent;
 import org.seguin.drinks_r_us.Models.Ingredients;
@@ -35,6 +38,7 @@ public class IngredientFragment  extends DialogFragment{
     ServiceServeur serverMock;
     List<Ingredients> ingredientDejaChoisi;
     IngredientFragment_IngredientAdapter adapter;
+    ProgressDialog progressD;
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -56,20 +60,25 @@ public class IngredientFragment  extends DialogFragment{
 
         //Adapter du listview d'ingredient
         final ArrayList<Ingredients> allIngredientList = new ArrayList<>();
+        // show progressBar
+        progressD = ProgressDialog.show(getActivity(), "Veuillez patienter",
+                "Attente de réponse du serveur", true);
         serverMock.getAllIngredients().enqueue(new Callback<ArrayList<Ingredients>>() {
             @Override
             public void onResponse(Call<ArrayList<Ingredients>> call, Response<ArrayList<Ingredients>> response) {
                 if (response.isSuccessful()){
+                    progressD.dismiss();
                     refreshMainActivityListView(v, response.body());
                 }
                 else{
                     Log.i("Retrofit", "code d'erreur est " + response.code());
+                    progressD.dismiss();
                 }
             }
 
             @Override
             public void onFailure(Call<ArrayList<Ingredients>> call, Throwable t) {
-
+                progressD.dismiss();
             }
         });
         adapter = new IngredientFragment_IngredientAdapter(getActivity(), R.layout.lv_frag_ingredients_item, allIngredientList, ingredientDejaChoisi);

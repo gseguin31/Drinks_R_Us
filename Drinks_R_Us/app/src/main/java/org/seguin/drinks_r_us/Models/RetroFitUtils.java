@@ -3,6 +3,8 @@ package org.seguin.drinks_r_us.Models;
 import org.seguin.drinks_r_us.Server.ServiceServeur;
 import org.seguin.drinks_r_us.Server.ServiceServeurMock;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HostnameVerifier;
@@ -12,6 +14,9 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import okhttp3.Cookie;
+import okhttp3.CookieJar;
+import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -64,6 +69,27 @@ public class RetroFitUtils {
         return new ServiceServeurMock(delegate);
     }
 
+    public static class MyCookieJar implements CookieJar {
+
+        private List<Cookie> cookies;
+
+        @Override
+        public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
+            this.cookies =  cookies;
+        }
+
+        @Override
+        public List<Cookie> loadForRequest(HttpUrl url) {
+            List<Cookie> res = new ArrayList<>();
+            if (cookies != null){
+                for(Cookie c : cookies){
+                    if (c.expiresAt() > System.currentTimeMillis()) res.add(c);
+                }
+            }
+            return res;
+        }
+    }
+
     public static OkHttpClient getClient(){
         try {
             OkHttpClient.Builder builder = new OkHttpClient.Builder();
@@ -99,6 +125,12 @@ public class RetroFitUtils {
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             builder = builder.addInterceptor(interceptor);
+
+            // Sets the cookie Jar to automatically handles incoming and outgoing cookies
+            CookieJar cookieJar =
+                    new MyCookieJar();
+            builder = builder.cookieJar(cookieJar);
+
             return builder.build();
         }catch(Exception e){
             e.printStackTrace();

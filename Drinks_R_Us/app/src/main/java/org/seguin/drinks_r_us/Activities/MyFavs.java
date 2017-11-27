@@ -1,5 +1,6 @@
 package org.seguin.drinks_r_us.Activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.annotation.NonNull;
@@ -39,6 +40,7 @@ public class MyFavs extends AppCompatActivity {
     ServiceServeur serveurMock;
     MainActivity_DrinkAdapter adapter;
     ArrayList<Drinks> myFavsResult;
+    ProgressDialog progressD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,21 +74,26 @@ public class MyFavs extends AppCompatActivity {
                         startActivity(intentFav);
                         break;
                     case R.id.nav_item_Logout:
+                        // show progressBar
+                        progressD = ProgressDialog.show(MyFavs.this, "Veuillez patienter",
+                                "Attente de réponse du serveur", true);
                         serveurMock.logoutUser(currentUserid).enqueue(new Callback<Users>() {
                             @Override
                             public void onResponse(Call<Users> call, Response<Users> response) {
                                 if (response.isSuccessful()){
                                     Intent intentLogin = new Intent(getApplicationContext(), Login.class);
+                                    progressD.dismiss();
                                     startActivity(intentLogin);
                                 }
                                 else{
                                     Log.i("Retrofit", "code d'erreur est " + response.code());
+                                    progressD.dismiss();
                                 }
                             }
 
                             @Override
                             public void onFailure(Call<Users> call, Throwable t) {
-
+                                progressD.dismiss();
                             }
                         });
                         break;
@@ -115,21 +122,26 @@ public class MyFavs extends AppCompatActivity {
 
         //ListView Adapter (On peux utiliser le meme que le main activity car ca revient a le meme genre de list)
         myFavsResult = new ArrayList<>();
+        // show progressBar
+        progressD = ProgressDialog.show(MyFavs.this, "Veuillez patienter",
+                "Attente de réponse du serveur", true);
         serveurMock.getMyFavs(currentUserid).enqueue(new Callback<ArrayList<Drinks>>() {
             @Override
             public void onResponse(Call<ArrayList<Drinks>> call, Response<ArrayList<Drinks>> response) {
                 if (response.isSuccessful()){
                     myFavsResult.addAll(response.body());
                     refreshListView(response.body());
+                    progressD.dismiss();
                 }
                 else{
                     Log.i("Retrofit", "code d'erreur est " + response.code());
+                    progressD.dismiss();
                 }
             }
 
             @Override
             public void onFailure(Call<ArrayList<Drinks>> call, Throwable t) {
-
+                progressD.dismiss();
             }
         });
         adapter = new MainActivity_DrinkAdapter(this, R.layout.lv_main_drinks_item, new ArrayList<Drinks>());
@@ -190,7 +202,6 @@ public class MyFavs extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Users> call, Throwable t) {
-
             }
         });
     }

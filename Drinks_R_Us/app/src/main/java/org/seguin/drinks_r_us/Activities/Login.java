@@ -1,5 +1,6 @@
 package org.seguin.drinks_r_us.Activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import retrofit2.Response;
 public class Login extends AppCompatActivity {
 
     ServiceServeur serverMock;
+    ProgressDialog progressD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +58,17 @@ public class Login extends AppCompatActivity {
                     return;
                 }
 
+                // show progressBar
+                progressD = ProgressDialog.show(Login.this, "Veuillez patienter",
+                        "Attente de réponse du serveur", true);
+
                 serverMock.verifyCredentials(credentials).enqueue(new Callback<Token>() {
                     @Override
                     public void onResponse(Call<Token> call, Response<Token> response) {
                         if (response.isSuccessful()){
+                            // stop progressBar
+                            progressD.dismiss();
+
                             final Token token = response.body();
                             Intent logIntent = new Intent(getApplicationContext(), MainActivity.class);
                             logIntent.putExtra("currentUser", token.UserId);
@@ -68,12 +77,15 @@ public class Login extends AppCompatActivity {
                         else{
                             Log.i("Retrofit", "code d'erreur est " + response.code());
                             Toast.makeText(Login.this, "Les informations saisie sont erroné", Toast.LENGTH_SHORT).show();
+                            // stop progressBar
+                            progressD.dismiss();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<Token> call, Throwable t) {
-
+                        // stop progressBar
+                        progressD.dismiss();
                     }
                 });
 
@@ -100,10 +112,17 @@ public class Login extends AppCompatActivity {
                     return;
                 }
 
+                // show progressBar
+                progressD = ProgressDialog.show(Login.this, "Veuillez patienter",
+                        "Attente de réponse du serveur", true);
+
                 serverMock.createUser(credentials).enqueue(new Callback<Users>() {
                     @Override
                     public void onResponse(Call<Users> call, Response<Users> response) {
                         if (response.isSuccessful()){
+                            // stop progressBar
+                            progressD.dismiss();
+
                             Users newUser = response.body();
                             Intent logIntent = new Intent(getApplicationContext(), MainActivity.class);
                             logIntent.putExtra("currentUser", newUser.getId());
@@ -112,12 +131,15 @@ public class Login extends AppCompatActivity {
                         else{
                             Log.i("Retrofit", "code d'erreur est " + response.code());
                             Toast.makeText(Login.this, "Veuillez choisir un autre nom d'utilisateur", Toast.LENGTH_SHORT).show();
+                            // stop progressBar
+                            progressD.dismiss();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<Users> call, Throwable t) {
-
+                        // stop progressBar
+                        progressD.dismiss();
                     }
                 });
             }
