@@ -71,7 +71,8 @@ public class Login extends AppCompatActivity {
 
                             final Token token = response.body();
                             Intent logIntent = new Intent(getApplicationContext(), MainActivity.class);
-                            logIntent.putExtra("currentUser", token.UserId);
+                            int userId = Integer.parseInt(token.UserId);
+                            logIntent.putExtra("currentUser", userId);
                             startActivity(logIntent);
                         }
                         else{
@@ -116,16 +117,17 @@ public class Login extends AppCompatActivity {
                 progressD = ProgressDialog.show(Login.this, "Veuillez patienter",
                         "Attente de réponse du serveur", true);
 
-                serverMock.createUser(credentials).enqueue(new Callback<Users>() {
+                serverMock.createUser(credentials).enqueue(new Callback<Token>() {
                     @Override
-                    public void onResponse(Call<Users> call, Response<Users> response) {
+                    public void onResponse(Call<Token> call, Response<Token> response) {
                         if (response.isSuccessful()){
                             // stop progressBar
                             progressD.dismiss();
 
-                            Users newUser = response.body();
+                            Token newUser = response.body();
                             Intent logIntent = new Intent(getApplicationContext(), MainActivity.class);
-                            logIntent.putExtra("currentUser", newUser.getId());
+                            int userId = Integer.parseInt(newUser.UserId);
+                            logIntent.putExtra("currentUser", userId);
                             startActivity(logIntent);
                         }
                         else{
@@ -137,7 +139,7 @@ public class Login extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(Call<Users> call, Throwable t) {
+                    public void onFailure(Call<Token> call, Throwable t) {
                         // stop progressBar
                         progressD.dismiss();
                     }

@@ -28,7 +28,7 @@ public interface ServiceServeur {
     Call<Users> getUserById(@Path("id") int id);
 
     @GET("/api/Users/Logout/{id}")
-    Call<Users> logoutUser(@Path("id") int id);
+    Call<Boolean> logoutUser(@Path("id") int id);
 
     @GET("/api/Users/MyDrinks/{id}")
     Call<ArrayList<Drinks>> getMyDrinks(@Path("id") int id);
@@ -46,7 +46,7 @@ public interface ServiceServeur {
     Call<Token> verifyCredentials(@Body EmailPassword login);
 
     @POST("/api/Users/Create")
-    Call<Users> createUser(@Body EmailPassword credentials);
+    Call<Token> createUser(@Body EmailPassword credentials);
 
     //endregion
 

@@ -137,9 +137,9 @@ public class DrinkDescription extends AppCompatActivity {
                         // show progressBar
                         progressD = ProgressDialog.show(DrinkDescription.this, "Veuillez patienter",
                                 "Attente de réponse du serveur", true);
-                        serveurMock.logoutUser(currentUserid).enqueue(new Callback<Users>() {
+                        serveurMock.logoutUser(currentUserid).enqueue(new Callback<Boolean>() {
                             @Override
-                            public void onResponse(Call<Users> call, Response<Users> response) {
+                            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                                 if (response.isSuccessful()){
                                     Intent intentLogin = new Intent(getApplicationContext(), Login.class);
                                     startActivity(intentLogin);
@@ -151,7 +151,7 @@ public class DrinkDescription extends AppCompatActivity {
                             }
 
                             @Override
-                            public void onFailure(Call<Users> call, Throwable t) {
+                            public void onFailure(Call<Boolean> call, Throwable t) {
                                 progressD.dismiss();
                             }
                         });

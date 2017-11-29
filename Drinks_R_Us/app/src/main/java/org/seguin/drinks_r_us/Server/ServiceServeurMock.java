@@ -44,8 +44,8 @@ public class ServiceServeurMock implements ServiceServeur {
     }
 
     @Override
-    public Call<Users> logoutUser(int id) {
-        return delegate.returningResponse(user).getUserById(id);
+    public Call<Boolean> logoutUser(int id) {
+        return delegate.returningResponse(true).logoutUser(0);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class ServiceServeurMock implements ServiceServeur {
     }
 
     @Override
-    public Call<Users> createUser(EmailPassword cred) {
+    public Call<Token> createUser(EmailPassword cred) {
         return delegate.returningResponse(user).createUser(cred);
     }
 
