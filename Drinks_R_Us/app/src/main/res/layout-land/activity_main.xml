@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/my_drawer_layout"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+<LinearLayout
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/landscape">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/lvMain_Drinks"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="match_parent"></ListView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnAddDrink"
+            android:textColor="#000"
+            android:textSize="20sp"
+            android:text="Crée Cocktail"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+
+
+
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="60sp"
+            android:textColor="#a32125"
+            android:id="@+id/tvDescripNom"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvIngredient_Landscape"
+            android:text="Ingrédients"
+            android:textColor="#000"
+            android:textSize="50sp"/>
+
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/lv_drinkDescription_ingredients">
+
+        </ListView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvInstruction_Landscape"
+            android:text="Instructions"
+            android:textColor="#000"
+            android:textSize="50sp"/>
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="40sp"
+                android:textColor="#000"
+                android:id="@+id/tvDescripInstruction"/>
+        </ScrollView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="7">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/btnFavDrink"
+                android:text="Favoris"
+                android:textSize="20sp"/>
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
+
+<android.support.design.widget.NavigationView
+android:id="@+id/my_navigation_view"
+android:layout_height="match_parent"
+android:layout_width="wrap_content"
+android:layout_gravity="start"
+android:background="#fff"
+android:fitsSystemWindows="true"
+app:headerLayout="@layout/drawer_header"
+app:menu="@menu/my_drawer_view"/>
+
+    </android.support.v4.widget.DrawerLayout>

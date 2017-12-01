@@ -42,12 +42,21 @@ public class DrinkDescription extends AppCompatActivity {
     ServiceServeur serveurMock;
     Drinks currentDrink;
     ProgressDialog progressD;
+    Boolean isLandscape;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drink_description);
 
         serveurMock = SingletonServeur.getInstance().serveur;
+
+        //if landscape mode is activated close the activity
+        isLandscape = findViewById(R.id.drink_descript_landscape) != null;
+        if (isLandscape){
+            this.finish();
+            return;
+        }
 
         final Intent currentIntent = getIntent();
         //get current drink passer dans intent

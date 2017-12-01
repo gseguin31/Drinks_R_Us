@@ -18,13 +18,17 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.seguin.drinks_r_us.Adapters.CreateDrink_IngredientAdapter;
 import org.seguin.drinks_r_us.Adapters.MainActivity_DrinkAdapter;
 import org.seguin.drinks_r_us.Models.Drinks;
+import org.seguin.drinks_r_us.Models.Ingredients;
 import org.seguin.drinks_r_us.Models.Users;
 
 import org.seguin.drinks_r_us.R;
 import org.seguin.drinks_r_us.Server.ServiceServeur;
 import org.seguin.drinks_r_us.Server.SingletonServeur;
+import org.w3c.dom.Text;
+
 import com.squareup.otto.Bus;
 
 import java.util.ArrayList;
@@ -36,6 +40,8 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
+    //TODO scrollable et drinkdesrip intent
+
     ActionBarDrawerToggle toggle;
     ServiceServeur serveurMock;
     int currentUserid;
@@ -44,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     MainActivity_DrinkAdapter adapter;
     ArrayList<Drinks> allDrinksList;
     ProgressDialog progressD;
+    Boolean isLanscape;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         serveurMock = SingletonServeur.getInstance().serveur;
+
+        isLanscape = findViewById(R.id.landscape) != null;
 
 
         //Button Listeners
@@ -92,19 +101,61 @@ public class MainActivity extends AppCompatActivity {
         });
         adapter = new MainActivity_DrinkAdapter(this, R.layout.lv_main_drinks_item, allDrinksList);
         ListView lvDrinks = (ListView)findViewById(R.id.lvMain_Drinks);
+        if (isLanscape){
+            lvDrinks.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        }
         lvDrinks.setAdapter(adapter);
 
+        //hide ui items of drink details if no drink is selected in landscape mode
+        if (isLanscape){
+            Button btnfav = (Button)findViewById(R.id.btnFavDrink);
+            TextView txtIngr = (TextView)findViewById(R.id.tvIngredient_Landscape);
+            TextView txtInstr = (TextView)findViewById(R.id.tvInstruction_Landscape);
+            btnfav.setVisibility(View.INVISIBLE);
+            txtIngr.setVisibility(View.INVISIBLE);
+            txtInstr.setVisibility(View.INVISIBLE);
+        }
 
         //listener du listview pour ouvrir lactivity de detail dun drink
-        lvDrinks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent DrinkDescIntent = new Intent(getApplicationContext(), DrinkDescription.class);
-                DrinkDescIntent.putExtra("currentUser", currentUserid);
-                DrinkDescIntent.putExtra("currentDrink", allDrinksList.get(position));
-                startActivity(DrinkDescIntent);
-            }
-        });
+        /*if (isLanscape){
+            lvDrinks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Button btnfav = (Button)findViewById(R.id.btnFavDrink);
+                    TextView txtIngr = (TextView)findViewById(R.id.tvIngredient_Landscape);
+                    TextView txtInstr = (TextView)findViewById(R.id.tvInstruction_Landscape);
+                    btnfav.setVisibility(View.VISIBLE);
+                    txtIngr.setVisibility(View.VISIBLE);
+                    txtInstr.setVisibility(View.VISIBLE);
+
+                    Drinks currentDrink = allDrinksList.get(position);
+                    //Adapter du listview d'ingredient (On peux utiliser le meme que le createDrink activity car ca revient a le meme genre de list)
+                    ArrayList<Ingredients> listIngr = currentDrink.getListIngredients();
+                    CreateDrink_IngredientAdapter adapter = new CreateDrink_IngredientAdapter(MainActivity.this, R.layout.lv_createdrink_ingredient_item);
+                    ListView lvIngr = (ListView)findViewById(R.id.lv_drinkDescription_ingredients);
+                    lvIngr.setAdapter(adapter);
+                    adapter.addAll(listIngr);
+
+                    TextView tvNom = (TextView)findViewById(R.id.tvDescripNom);
+                    TextView tvInstruction = (TextView)findViewById(R.id.tvDescripInstruction);
+
+                    tvNom.setText(currentDrink.getName());
+                    tvInstruction.setText(currentDrink.getInstruction());
+                }
+            });
+        }
+        else {*/
+            lvDrinks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent DrinkDescIntent = new Intent(getApplicationContext(), DrinkDescription.class);
+                    DrinkDescIntent.putExtra("currentUser", currentUserid);
+                    DrinkDescIntent.putExtra("currentDrink", allDrinksList.get(position));
+                    startActivity(DrinkDescIntent);
+                }
+            });
+        //}
+
 
 
         //Menu de navigation
