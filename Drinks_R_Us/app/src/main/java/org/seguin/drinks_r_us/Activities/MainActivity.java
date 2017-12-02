@@ -17,11 +17,13 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.seguin.drinks_r_us.Adapters.CreateDrink_IngredientAdapter;
 import org.seguin.drinks_r_us.Adapters.MainActivity_DrinkAdapter;
 import org.seguin.drinks_r_us.Models.Drinks;
 import org.seguin.drinks_r_us.Models.Ingredients;
+import org.seguin.drinks_r_us.Models.UserDrink;
 import org.seguin.drinks_r_us.Models.Users;
 
 import org.seguin.drinks_r_us.R;
@@ -40,8 +42,6 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    //TODO scrollable et drinkdesrip intent
-
     ActionBarDrawerToggle toggle;
     ServiceServeur serveurMock;
     int currentUserid;
@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Drinks> allDrinksList;
     ProgressDialog progressD;
     Boolean isLanscape;
+    Drinks currentDrink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,10 +115,54 @@ public class MainActivity extends AppCompatActivity {
             btnfav.setVisibility(View.INVISIBLE);
             txtIngr.setVisibility(View.INVISIBLE);
             txtInstr.setVisibility(View.INVISIBLE);
+
+            //add btnfav onclicklistener
+            btnfav.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final ArrayList<Drinks> myFavs = new ArrayList<Drinks>();
+                    // show progressBar
+                    progressD = ProgressDialog.show(MainActivity.this, "Veuillez patienter",
+                            "Attente de réponse du serveur", true);
+                    serveurMock.getMyFavs(currentUserid).enqueue(new Callback<ArrayList<Drinks>>() {
+                        @Override
+                        public void onResponse(Call<ArrayList<Drinks>> call, Response<ArrayList<Drinks>> response) {
+                            if (response.isSuccessful()){
+                                myFavs.addAll(response.body());
+                                progressD.dismiss();
+                                if (myFavs.size() < 1){
+                                    addDrinkInFavs();
+                                }
+                                else{
+                                    //Verifier que le user na pas deja ce drink dans ses favoris
+                                    for (Drinks d :
+                                            myFavs) {
+                                        if (d.getId() == currentDrink.getId()){
+                                            Toast.makeText(MainActivity.this, "Déjà dans les favoris", Toast.LENGTH_SHORT).show();
+                                        }
+                                        else{
+                                            addDrinkInFavs();
+                                        }
+                                    }
+                                }
+                            }
+                            else{
+                                Log.i("Retrofit", "code d'erreur est " + response.code());
+                                progressD.dismiss();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ArrayList<Drinks>> call, Throwable t) {
+                            progressD.dismiss();
+                        }
+                    });
+                }
+            });
         }
 
         //listener du listview pour ouvrir lactivity de detail dun drink
-        /*if (isLanscape){
+        if (isLanscape){
             lvDrinks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -128,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
                     txtIngr.setVisibility(View.VISIBLE);
                     txtInstr.setVisibility(View.VISIBLE);
 
-                    Drinks currentDrink = allDrinksList.get(position);
+                    currentDrink = allDrinksList.get(position);
                     //Adapter du listview d'ingredient (On peux utiliser le meme que le createDrink activity car ca revient a le meme genre de list)
                     ArrayList<Ingredients> listIngr = currentDrink.getListIngredients();
                     CreateDrink_IngredientAdapter adapter = new CreateDrink_IngredientAdapter(MainActivity.this, R.layout.lv_createdrink_ingredient_item);
@@ -144,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-        else {*/
+        else {
             lvDrinks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -154,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(DrinkDescIntent);
                 }
             });
-        //}
+        }
 
 
 
@@ -291,6 +336,35 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Users> call, Throwable t) {
+                progressD.dismiss();
+            }
+        });
+    }
+
+    public void addDrinkInFavs(){
+        UserDrink userDrink = new UserDrink();
+        userDrink.drink = currentDrink;
+        userDrink.user = currentUser;
+        // show progressBar
+        progressD = ProgressDialog.show(MainActivity.this, "Veuillez patienter",
+                "Attente de réponse du serveur", true);
+        serveurMock.addMyFavs(userDrink).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful()){
+                    Toast.makeText(MainActivity.this, "Ajouté aux favoris", Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                    i.putExtra("currentUser", currentUserid);
+                    startActivity(i);
+                }
+                else{
+                    Log.i("Retrofit", "code d'erreur est " + response.code());
+                    progressD.dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
                 progressD.dismiss();
             }
         });
